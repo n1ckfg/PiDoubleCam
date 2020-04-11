@@ -4,7 +4,6 @@
 #include "ofxCv.h"
 #include "ofxOpenCv.h"
 #include "ofxCvPiCam.h"
-#include "ofxOMXPlayer.h"
 #include "ofxXmlSettings.h"
 
 // This openFrameworks example is designed to demonstrate how to access the webcam.
