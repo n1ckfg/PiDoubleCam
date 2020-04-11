@@ -1,2 +1,4 @@
-ofxOMXCamera
 ofxXmlSettings
+ofxOpenCv
+ofxCv
+ofxCvPiCam

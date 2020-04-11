@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<settings>
+    <host>BrazilV.local</host>
+    <port>7110</port>
+    <width>160</width>
+    <height>120</height>
+    <framerate>30</framerate>
+    <debug>0</debug>
+    <send_motion_info>0</send_motion_info>
+    <plane_res_x>128</plane_res_x>
+    <plane_res_y>64</plane_res_y>
+    <rot_scale_x>1.0</rot_scale_x>
+    <rot_scale_y>0.1</rot_scale_y>
+    <pos_scale_x>-1.0</pos_scale_x>
+    <pos_scale_y>0.5</pos_scale_y>
+    <movie_file>Comp_8.mp4</movie_file>
+    <!-- * -->
+    <!-- trigger settings -->
+    <trigger_threshold>0.05</trigger_threshold>
+    <trigger_frames>3</trigger_frames>
+    <time_delay>10000</time_delay>
+    <counter_reset>1000</counter_reset>
+    <!-- * -->
+    <!-- optical flow settings -->
+    <dense_flow>1</dense_flow>
+    <flow_reset_threshold>1.0</flow_reset_threshold>
+    <pyr_scale>0.5</pyr_scale>
+    <levels>4</levels>
+    <win_size>8</win_size>
+    <iterations>2</iterations>
+    <poly_n>7</poly_n>
+    <poly_sigma>1.5</poly_sigma>
+    <optflow_farneback_gaussian>false</optflow_farneback_gaussian>
+    <win_size>32</win_size>
+    <max_level>3</max_level>
+    <max_features>200</max_features>
+    <quality_level>0.01</quality_level>
+    <min_distance>4</min_distance>  
+    <!-- * -->
+    <!-- camera settings -->
+    <sharpness>50</sharpness>
+	<contrast>0</contrast>
+	<brightness>50</brightness>
+	<iso>800</iso>
+	<exposure_mode>0</exposure_mode>
+    <exposure_compensation>0</exposure_compensation>
+	<shutter_speed>100000</shutter_speed>
+</settings>
+<!--
+    pyrScale // 0 to 1, default 0.5
+    levels // 1 to 8, default 4
+    winsize // 4 to 64, default 8
+    iterations // 1 to 8, default 2
+    polyN // 5 to 10, default 7
+    polySigma // 1.1 to 2, default 
+    OPTFLOW_FARNEBACK_GAUSSIAN // default false
+    winSize // 4 to 64, default 32
+    maxLevel // 0 to 8, default 3
+    maxFeatures// 1 to 1000, default 200
+    qualityLevel // 0.001 to 0.02, default 0.01
+    minDistance // 1 to 16, default 4
+-->
