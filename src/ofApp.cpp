@@ -1,5 +1,8 @@
 #include "ofApp.h"
 
+using namespace cv;
+using namespace ofxCv;
+
 //--------------------------------------------------------------
 void ofApp::setup() {
     settings.loadFile("settings.xml");
@@ -78,7 +81,7 @@ void ofApp::draw() {
     ofSetHexColor(0xffffff);
     vidGrabber.draw(20, 20);
     //videoTexture.draw(20 + camWidth, 20, camWidth, camHeight);
-    frame.draw(20 + camWidth, 20, camWidth, camHeight);
+    drawMat(frame, 20 + camWidth, 20);
 }
 
 
