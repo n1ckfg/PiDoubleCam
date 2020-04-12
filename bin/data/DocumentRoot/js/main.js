@@ -7,10 +7,10 @@ function main() {
 
     loadFile("./js/hostname", function(evt) {
         hostname = evt.replace(/^\n|\n$/g, ''); // remove line breaks
-    });
 
-    liveView = document.getElementById("live_view");
-    liveView.onclick = saveToPng;
+        liveView = document.getElementById("live_view");
+        liveView.onclick = saveToPng;
+    });
 
 }
 
