@@ -6,7 +6,10 @@ function main() {
 
     liveView = document.getElementById("live_view");
     liveViewDl = document.getElementById("live_view_dl");
-    liveViewDl.onclick = loadFile(saveAsPng(liveView), function(evt) { });
+    var img = saveAsPng(liveView);
+    console.log(img);
+    liveViewDl.onclick = loadFile(img, function(evt) { });
+
 }
 
 window.onload = main;
