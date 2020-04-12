@@ -81,35 +81,33 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
-    ofBackground(100, 100, 100);
     vidGrabber.update();
-
-    if (vidGrabber.isFrameNew()) {
-        cam1Ready = true;
-    }
-
-    // ~ ~ ~ ~
+    if (vidGrabber.isFrameNew()) cam1Ready = true;
 
     frame = cam.grab();
+    if (!frame.empty()) cam2Ready = true;
 
-    if (!frame.empty()) {
-        cam2Ready = true;
+    if (cam1Ready && cam2Ready) {
+        updateStreamingVideo();
+        cam1Ready = false;
+        cam2Ready = false;
     }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-    if (debug) fbo.draw(0, 0, fboScaleW, fboScaleH);
+    if (debug) {
+        ofBackground(0);
+        fbo.draw(0, 0, fboScaleW, fboScaleH);
+    }
 }
 
 void ofApp::updateStreamingVideo() {
-    if (cam1Ready && cam2Ready) {
-        fbo.begin();
-        vidGrabber.draw(0, 0);
-        drawMat(frame, camWidth, 0);
-        fbo.end();
+    fbo.begin();
+    vidGrabber.draw(0, 0);
+    drawMat(frame, camWidth, 0);
+    fbo.end();
 
-        fbo.readToPixels(pixels);
-        streamServer.send(pixels);
-    }
+    fbo.readToPixels(pixels);
+    streamServer.send(pixels);
 }
