@@ -52,4 +52,33 @@ class ofApp : public ofBaseApp {
         void updateStreamingVideo();
 
         bool cam1Ready, cam2Ready;
+
+        //~ ~ ~ homography
+
+        void setupHomography();
+        void updateHomography();
+        void drawHomography();
+
+        bool movePoint(vector<ofVec2f>& points, ofVec2f point);
+        void drawPoints(vector<ofVec2f>& points);
+        void mousePressed(int x, int y, int button);
+        void mouseDragged(int x, int y, int button);
+        void mouseReleased(int x, int y, int button);
+        void keyPressed(int key);
+    
+        ofImage left, right, warpedColor;
+        vector<ofVec2f> leftPoints, rightPoints;
+        bool movingPoint;
+        ofVec2f* curPoint;
+        bool saveMatrix;
+        bool homographyReady;
+    
+        cv::Mat homography;
+        ofxCv::Calibration calibration;
+    
+        int counter = 0;
+        string inputFileType = "jpg";
+        string outputFileType = "png";
+        bool finished = false;
+
 };

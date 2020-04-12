@@ -9,3 +9,4 @@ ofxNetworkUtils
 ofxPoco
 ofxSSLManager
 ofxJSON
+ofxGui
