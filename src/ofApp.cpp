@@ -6,11 +6,15 @@ using namespace ofxCv;
 //--------------------------------------------------------------
 void ofApp::setup() {
     settings.loadFile("settings.xml");
-    ofHideCursor();
-    debug = (bool) settings.getValue("settings:debug", 1);
 
+    debug = (bool) settings.getValue("settings:debug", 1);
     camWidth = settings.getValue("settings:width", 320);
     camHeight = settings.getValue("settings:height", 240);
+    framerate = settings.getValue("settings:framerate", 60);
+
+    ofSetFrameRate(framerate);
+    ofSetVerticalSync(true);
+    ofHideCursor();
 
     //get back a list of devices.
     vector<ofVideoDevice> devices = vidGrabber.listDevices();
@@ -26,10 +30,8 @@ void ofApp::setup() {
     }
 
     vidGrabber.setDeviceID(0);
-    vidGrabber.setDesiredFrameRate(60);
+    vidGrabber.setDesiredFrameRate(framerate);
     vidGrabber.initGrabber(camWidth, camHeight);
-
-    ofSetVerticalSync(true);
 
     // ~ ~ ~   rpi cam settings   ~ ~ ~
     camSharpness = settings.getValue("settings:sharpness", 0);
@@ -71,6 +73,9 @@ void ofApp::setup() {
     streamSettings.fileSystemRouteSettings.setDefaultIndex("index.html");
     streamServer.setup(streamSettings);
     streamServer.start();
+
+    cam1Ready = false;
+    cam2Ready = false;
 }
 
 
@@ -80,7 +85,7 @@ void ofApp::update() {
     vidGrabber.update();
 
     if (vidGrabber.isFrameNew()) {
-        //
+        cam1Ready = true;
     }
 
     // ~ ~ ~ ~
@@ -88,21 +93,23 @@ void ofApp::update() {
     frame = cam.grab();
 
     if (!frame.empty()) {
-        //
+        cam2Ready = true;
     }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-    fbo.draw(0, 0, fboScaleW, fboScaleH);
+    if (debug) fbo.draw(0, 0, fboScaleW, fboScaleH);
 }
 
 void ofApp::updateStreamingVideo() {
-    fbo.begin();
-    vidGrabber.draw(0, 0);
-    drawMat(frame, camWidth, 0);
-    fbo.end();
+    if (cam1Ready && cam2Ready) {
+        fbo.begin();
+        vidGrabber.draw(0, 0);
+        drawMat(frame, camWidth, 0);
+        fbo.end();
 
-    fbo.readToPixels(pixels);
-    streamServer.send(pixels);
+        fbo.readToPixels(pixels);
+        streamServer.send(pixels);
+    }
 }

@@ -20,6 +20,7 @@ class ofApp : public ofBaseApp {
 
         ofxXmlSettings settings;
         bool debug; // draw to local screen, default true
+        int framerate;
 
         ofVideoGrabber vidGrabber;
         int camWidth;
@@ -50,4 +51,5 @@ class ofApp : public ofBaseApp {
         ofxHTTP::SimpleIPVideoServerSettings streamSettings;
         void updateStreamingVideo();
 
+        bool cam1Ready, cam2Ready;
 };
