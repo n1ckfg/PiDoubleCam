@@ -21,3 +21,7 @@ body {
 	margin: 0px;
 	padding: 0px;	
 }
+
+#live_view_dl {
+	font-weight: bold;	
+}
