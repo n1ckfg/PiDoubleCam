@@ -47,7 +47,6 @@ class ofApp : public ofBaseApp {
         ofPixels pixels;
 
         int streamPort;
-        string host; // hostname;
         ofxHTTP::SimpleIPVideoServer streamServer;
         ofxHTTP::SimpleIPVideoServerSettings streamSettings;
         void updateStreamingVideo();

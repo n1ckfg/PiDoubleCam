@@ -61,7 +61,7 @@ void ofApp::setup() {
     fboScaleH = int(((float) ofGetWidth() / (float) fbo.getWidth()) * (float) ofGetHeight());
     fboPosX = 0;
     fboPosY = abs((ofGetHeight() - fboScaleH))/2;
-
+   
     streamPort = settings.getValue("settings:stream_port", 7111);
     streamSettings.setPort(streamPort);
     streamSettings.ipVideoRouteSettings.setMaxClientConnections(settings.getValue("settings:max_stream_connections", 5)); // default 5
