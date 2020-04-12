@@ -68,7 +68,7 @@ void ofApp::setup() {
     streamSettings.ipVideoRouteSettings.setMaxClientBitRate(settings.getValue("settings:max_stream_bitrate", 512)); // default 1024
     streamSettings.ipVideoRouteSettings.setMaxClientFrameRate(settings.getValue("settings:max_stream_framerate", 30)); // default 30
     streamSettings.ipVideoRouteSettings.setMaxClientQueueSize(settings.getValue("settings:max_stream_queue", 10)); // default 10
-    streamSettings.ipVideoRouteSettings.setMaxStreamWidth(camWidth); // default 1920
+    streamSettings.ipVideoRouteSettings.setMaxStreamWidth(camWidth*2); // default 1920
     streamSettings.ipVideoRouteSettings.setMaxStreamHeight(camHeight); // default 1080
     streamSettings.fileSystemRouteSettings.setDefaultIndex("index.html");
     streamServer.setup(streamSettings);
