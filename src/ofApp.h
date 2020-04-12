@@ -5,11 +5,12 @@
 #include "ofxOpenCv.h"
 #include "ofxCvPiCam.h"
 #include "ofxXmlSettings.h"
+#include "ofxHTTP.h"
+#include "ofxJSONElement.h"
 
-// This openFrameworks example is designed to demonstrate how to access the webcam.
-// For more information regarding this example take a look at the README.md.
+#define NUM_MESSAGES 30 // how many past ws messages we want to keep
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp {
 
     public:
 
@@ -17,23 +18,10 @@ class ofApp : public ofBaseApp{
         void update();
         void draw();
 
-        void keyPressed(int key);
-        void keyReleased(int key);
-        void mouseMoved(int x, int y);
-        void mouseDragged(int x, int y, int button);
-        void mousePressed(int x, int y, int button);
-        void mouseReleased(int x, int y, int button);
-        void mouseEntered(int x, int y);
-        void mouseExited(int x, int y);
-        void windowResized(int w, int h);
-        void dragEvent(ofDragInfo dragInfo);
-        void gotMessage(ofMessage msg);        
-
         ofxXmlSettings settings;
+        bool debug; // draw to local screen, default true
 
         ofVideoGrabber vidGrabber;
-        ofPixels videoInverted;
-        ofTexture videoTexture;
         int camWidth;
         int camHeight;
 
@@ -52,4 +40,14 @@ class ofApp : public ofBaseApp{
 
         // 0 off, 1 auto, 2 night, 3 night preview, 4 backlight, 5 spotlight, 6 sports, 7, snow, 8 beach, 9 very long, 10 fixed fps, 11 antishake, 12 fireworks, 13 max
         int camExposureMode; // 0 to 13, default 0
+
+        ofFbo fbo;
+        int fboScaleW, fboScaleH, fboPosX, fboPosY;
+        ofPixels pixels;
+
+        int streamPort;
+        ofxHTTP::SimpleIPVideoServer streamServer;
+        ofxHTTP::SimpleIPVideoServerSettings streamSettings;
+        void updateStreamingVideo();
+
 };

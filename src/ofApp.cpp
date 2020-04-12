@@ -6,6 +6,8 @@ using namespace ofxCv;
 //--------------------------------------------------------------
 void ofApp::setup() {
     settings.loadFile("settings.xml");
+    ofHideCursor();
+    debug = (bool) settings.getValue("settings:debug", 1);
 
     camWidth = settings.getValue("settings:width", 320);
     camHeight = settings.getValue("settings:height", 240);
@@ -27,8 +29,6 @@ void ofApp::setup() {
     vidGrabber.setDesiredFrameRate(60);
     vidGrabber.initGrabber(camWidth, camHeight);
 
-    videoInverted.allocate(camWidth, camHeight, OF_PIXELS_RGB);
-    videoTexture.allocate(videoInverted);
     ofSetVerticalSync(true);
 
     // ~ ~ ~   rpi cam settings   ~ ~ ~
@@ -49,6 +49,28 @@ void ofApp::setup() {
     cam.setShutterSpeed(camShutterSpeed);
 
     cam.setup(camWidth, camHeight, false); // color/gray;
+
+    // * stream video *
+    // https://github.com/bakercp/ofxHTTP/blob/master/libs/ofxHTTP/include/ofx/HTTP/IPVideoRoute.h
+    // https://github.com/bakercp/ofxHTTP/blob/master/libs/ofxHTTP/src/IPVideoRoute.cpp
+    fbo.allocate(camWidth*2, camHeight, GL_RGBA);
+    pixels.allocate(camWidth*2, camHeight, OF_IMAGE_COLOR);
+    fboScaleW = ofGetWidth();
+    fboScaleH = int(((float) ofGetWidth() / (float) fbo.getWidth()) * (float) ofGetHeight());
+    fboPosX = 0;
+    fboPosY = abs((ofGetHeight() - fboScaleH))/2
+
+    streamPort = settings.getValue("settings:stream_port", 7111);
+    streamSettings.setPort(streamPort);
+    streamSettings.ipVideoRouteSettings.setMaxClientConnections(settings.getValue("settings:max_stream_connections", 5)); // default 5
+    streamSettings.ipVideoRouteSettings.setMaxClientBitRate(settings.getValue("settings:max_stream_bitrate", 512)); // default 1024
+    streamSettings.ipVideoRouteSettings.setMaxClientFrameRate(settings.getValue("settings:max_stream_framerate", 30)); // default 30
+    streamSettings.ipVideoRouteSettings.setMaxClientQueueSize(settings.getValue("settings:max_stream_queue", 10)); // default 10
+    streamSettings.ipVideoRouteSettings.setMaxStreamWidth(camWidth); // default 1920
+    streamSettings.ipVideoRouteSettings.setMaxStreamHeight(camHeight); // default 1080
+    streamSettings.fileSystemRouteSettings.setDefaultIndex("index.html");
+    streamServer.setup(streamSettings);
+    streamServer.start();
 }
 
 
@@ -58,13 +80,7 @@ void ofApp::update() {
     vidGrabber.update();
 
     if (vidGrabber.isFrameNew()) {
-        ofPixels & pixels = vidGrabber.getPixels();
-        for (size_t i = 0; i < pixels.size(); i++) {
-            //invert the color of the pixel
-            videoInverted[i] = 255 - pixels[i];
-        }
-        //load the inverted pixels
-        videoTexture.loadData(videoInverted);
+        //
     }
 
     // ~ ~ ~ ~
@@ -78,66 +94,15 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-    ofSetHexColor(0xffffff);
-    vidGrabber.draw(20, 20);
-    //videoTexture.draw(20 + camWidth, 20, camWidth, camHeight);
-    drawMat(frame, 20 + camWidth, 20);
+    fbo.draw(0, 0, fboScaleW, fboScaleH);
 }
 
+void ofApp::updateStreamingVideo() {
+    fbo.begin();
+    vidGrabber.draw(0, 0);
+    drawMat(frame, camWidth, 0);
+    fbo.end();
 
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key) {
-    // in fullscreen mode, on a pc at least, the 
-    // first time video settings the come up
-    // they come up *under* the fullscreen window
-    // use alt-tab to navigate to the settings
-    // window. we are working on a fix for this...
-
-    // Video settings no longer works in 10.7
-    // You'll need to compile with the 10.6 SDK for this
-    // For Xcode 4.4 and greater, see this forum post on instructions on installing the SDK
-    // http://forum.openframeworks.cc/index.php?topic=10343
-    if (key == 's' || key == 'S') {
-        vidGrabber.videoSettings();
-    }
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key) {
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y) {
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button) {
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button) {
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button) {
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y) {
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y) {
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h) {
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg) {
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo) {
+    fbo.readToPixels(pixels);
+    streamServer.send(pixels);
 }
