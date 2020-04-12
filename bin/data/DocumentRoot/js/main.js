@@ -24,7 +24,7 @@ function saveAsPng(img, fileName) {
     var imgBase64 = encodeAsPng(img);
 
     var a = document.createElement("a"); //Create <a>
-    a.href = "data:image/png;base64," + imgBase64; //Image Base64 Goes here
+    a.href = imgBase64; //Image Base64 Goes here
     a.download = fileName; //File name Here
     a.click(); //Downloaded file
 }
