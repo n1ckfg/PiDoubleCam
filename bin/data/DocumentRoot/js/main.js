@@ -6,21 +6,28 @@ function main() {
 
     liveView = document.getElementById("live_view");
     liveViewDl = document.getElementById("live_view_dl");
-    var img = saveAsPng(liveView);
-    console.log(img);
-    liveViewDl.onclick = loadFile(img, function(evt) { });
+    liveViewDl.onclick = saveAsPng(liveView, "test.png");
 
 }
 
 window.onload = main;
 
-function saveAsPng(img) {
+function encodeAsPng(img) {
     var c = document.createElement('canvas');
     c.width = img.width;
     c.height = img.height;
     var ctx = c.getContext('2d');
     ctx.drawImage(img, 0, 0);
     return c.toDataURL('image/png');
+}
+
+function saveAsPng(img, fileName) {
+    var imgBase64 = encodeAsPng(img);
+
+    var a = document.createElement("a"); //Create <a>
+    a.href = "data:image/png;base64," + imgBase64; //Image Base64 Goes here
+    a.download = fileName; //File name Here
+    a.click(); //Downloaded file
 }
 
 function loadFile(filepath, callback) { 
