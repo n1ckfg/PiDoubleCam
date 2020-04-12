@@ -1,6 +1,15 @@
 "use strict";
 
-var liveView;
+var liveViewDl;
+
+function main() {
+
+    liveViewDl = document.getElementById("live_view_dl");
+    liveViewDl.download = "test.jpg";
+
+}
+
+window.onload = main;
 
 function loadFile(filepath, callback) { 
     // https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript  
@@ -14,12 +23,3 @@ function loadFile(filepath, callback) {
     };
     xobj.send(null);  
 }
-
-function main() {
-
-    liveView = document.getElementById("live_view");
-    liveView.download = "test.jpg";
-
-}
-
-window.onload = main;
