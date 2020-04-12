@@ -17,8 +17,7 @@ function saveAsPng(img) {
     c.height = img.height;
     var ctx = c.getContext('2d');
     ctx.drawImage(img, 0, 0);
-    window.location = c.toDataURL('image/png');
-    //window.open(c.toDataURL('image/png'))
+    return c.toDataURL('image/png');
 }
 
 function loadFile(filepath, callback) { 
