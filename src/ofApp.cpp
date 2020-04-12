@@ -58,7 +58,7 @@ void ofApp::setup() {
     fboScaleW = ofGetWidth();
     fboScaleH = int(((float) ofGetWidth() / (float) fbo.getWidth()) * (float) ofGetHeight());
     fboPosX = 0;
-    fboPosY = abs((ofGetHeight() - fboScaleH))/2
+    fboPosY = abs((ofGetHeight() - fboScaleH))/2;
 
     streamPort = settings.getValue("settings:stream_port", 7111);
     streamSettings.setPort(streamPort);
