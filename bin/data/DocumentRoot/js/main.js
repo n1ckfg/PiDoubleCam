@@ -5,23 +5,30 @@ var liveView;
 function main() {
 
     liveView = document.getElementById("live_view");
-    liveView.onclick = saveAsPng(liveView, "test.png");
+    liveView.onclick = saveToPng;
 
 }
 
 window.onload = main;
 
-function encodeAsPng(img) {
+function saveToPng() {
+    saveBase64Image(liveView, "test.png");
+}
+
+function encodeBase64Image(img, format) {
     var c = document.createElement('canvas');
     c.width = img.width;
     c.height = img.height;
     var ctx = c.getContext('2d');
     ctx.drawImage(img, 0, 0);
-    return c.toDataURL('image/png');
+    return c.toDataURL('image/' + format);
 }
 
-function saveAsPng(img, fileName) {
-    var imgBase64 = encodeAsPng(img);
+function saveBase64Image(img, fileName) {
+    var extensionTemp = fileName.split('.');
+    var format = extensionTemp[extensionTemp.length - 1];
+
+    var imgBase64 = encodeBase64Image(img, format);
 
     var a = document.createElement("a"); //Create <a>
     a.href = imgBase64; //Image Base64 Goes here
