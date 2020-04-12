@@ -1,5 +1,6 @@
 calibration/left/*.jpg
 calibration/right/*.jpg
 calibration/*.yml
-output/*
+output/*.jpg
+
 
