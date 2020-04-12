@@ -18,7 +18,7 @@ function loadFile(filepath, callback) {
 function main() {
 
     liveView = document.getElementById("live_view");
-    liveview.download = "test.jpg";
+    liveView.download = "test.jpg";
 
 }
 
