@@ -76,11 +76,15 @@ void ofApp::setup() {
 
     cam1Ready = false;
     cam2Ready = false;
+
+    setupHomography();
 }
 
 
 //--------------------------------------------------------------
 void ofApp::update() {
+	updateHomography();
+
     vidGrabber.update();
     if (vidGrabber.isFrameNew()) cam1Ready = true;
 
@@ -182,7 +186,7 @@ void ofApp::setupHomography() {
 
 void ofApp::updateHomography() {
     if (finished) {
-        warpedColor.update();
+        return; //warpedColor.update();
     } else {
         if (!homographyReady) {
             if(leftPoints.size() >= 4) {
