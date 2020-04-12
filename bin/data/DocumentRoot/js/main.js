@@ -1,12 +1,11 @@
 "use strict";
 
-var liveView, liveViewDl;
+var liveView;
 
 function main() {
 
     liveView = document.getElementById("live_view");
-    liveViewDl = document.getElementById("live_view_dl");
-    liveViewDl.onclick = saveAsPng(liveView, "test.png");
+    liveView.onclick = saveAsPng(liveView, "test.png");
 
 }
 
