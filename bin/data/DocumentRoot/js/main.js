@@ -1,8 +1,13 @@
 "use strict";
 
 var liveView;
+var hostname="127.0.0.1";
 
 function main() {
+
+    loadFile("./js/hostname", function(evt) {
+        hostname = evt.replace(/^\n|\n$/g, ''); // remove line breaks
+    });
 
     liveView = document.getElementById("live_view");
     liveView.onclick = saveToPng;
@@ -12,7 +17,7 @@ function main() {
 window.onload = main;
 
 function saveToPng() {
-    saveBase64Image(liveView, "test.png");
+    saveBase64Image(liveView, hostname + ".png");
 }
 
 function encodeBase64Image(img, format) {
