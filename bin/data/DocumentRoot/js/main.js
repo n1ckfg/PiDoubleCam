@@ -1,17 +1,6 @@
 "use strict";
 
 var liveView;
-var hostname="127.0.0.1";
-var port=7111;
-
-function main() {
-	loadFile("./js/hostname", function(evt) {
-	    hostname = evt.replace(/^\n|\n$/g, ''); // remove line breaks
-        
-        liveView = document.getElementById("live_view");
-		liveView.src = "http://" + hostname + ".local:" + port;
-	});
-}
 
 function loadFile(filepath, callback) { 
     // https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript  
@@ -24,6 +13,13 @@ function loadFile(filepath, callback) {
         }
     };
     xobj.send(null);  
+}
+
+function main() {
+
+    liveView = document.getElementById("live_view");
+    liveview.download = "test.jpg";
+
 }
 
 window.onload = main;
