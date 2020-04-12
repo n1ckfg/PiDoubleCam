@@ -109,7 +109,18 @@ void ofApp::draw() {
 void ofApp::updateStreamingVideo() {
     fbo.begin();
     vidGrabber.draw(0, 0);
-    drawMat(frame, camWidth, 0);
+
+    if(homographyReady) {
+        imitate(warpedColor, frame);
+        // this is how you warp one ofImage into another ofImage given the homography matrix
+        // CV INTER NN is 113 fps, CV_INTER_LINEAR is 93 fps
+        warpPerspective(frame, warpedColor, homography, CV_INTER_LINEAR);
+        warpedColor.update();
+        warpedColor.draw(camWidth, 0);
+    } else {
+    	drawMat(frame, camWidth, 0);
+	}
+
     fbo.end();
 
     fbo.readToPixels(pixels);
@@ -206,32 +217,7 @@ void ofApp::updateHomography() {
                 //}
                 homographyReady = true;
             }
-        }
-        
-        if(homographyReady) {
-            ofDirectory rightDir("right");
-            rightDir.allowExt(inputFileType);
-            rightDir.listDir();
-            rightDir.sort();
-            int rightDirCount = rightDir.size();
-            
-            string rightUrl = rightDir.getPath(counter);
-            cout << "main R " << (counter+1) << "/" << rightDirCount << ": " << rightUrl << endl;
-            right.load(rightUrl);
-            imitate(warpedColor, right);
-            
-            // this is how you warp one ofImage into another ofImage given the homography matrix
-            // CV INTER NN is 113 fps, CV_INTER_LINEAR is 93 fps
-            warpPerspective(right, warpedColor, homography, CV_INTER_LINEAR);
-            warpedColor.update();
-            string outputUrl = "output/output_" + ofToString(counter) + "." + outputFileType;
-            warpedColor.save(outputUrl);
-            if (counter < rightDirCount-1) {
-                counter++;
-            } else {
-                finished = true;
-            }
-        }
+        }       
     }
 }
 
