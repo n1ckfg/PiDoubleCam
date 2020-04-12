@@ -1,7 +1,7 @@
 "use strict";
 
 var liveView;
-var hostname="127.0.0.1";
+var hostname="test";
 
 function main() {
 
