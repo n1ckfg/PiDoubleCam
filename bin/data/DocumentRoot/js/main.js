@@ -17,8 +17,8 @@ function saveToPng() {
 
 function encodeBase64Image(img, format) {
     var c = document.createElement('canvas');
-    c.width = img.width;
-    c.height = img.height;
+    c.width = img.naturalWidth;
+    c.height = img.naturalHeight;
     var ctx = c.getContext('2d');
     ctx.drawImage(img, 0, 0);
     return c.toDataURL('image/' + format);
