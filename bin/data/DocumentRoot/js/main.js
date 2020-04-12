@@ -6,7 +6,7 @@ function main() {
 
     liveView = document.getElementById("live_view");
     liveView.onclick = saveAsPng(liveView);
-    
+
 }
 
 window.onload = main;
@@ -17,8 +17,8 @@ function saveAsPng(img) {
     c.height = img.height;
     var ctx = c.getContext('2d');
     ctx.drawImage(img, 0, 0);
-    //window.location = c.toDataURL('image/png');
-    window.open(c.toDataURL('image/png'))
+    window.location = c.toDataURL('image/png');
+    //window.open(c.toDataURL('image/png'))
 }
 
 function loadFile(filepath, callback) { 
