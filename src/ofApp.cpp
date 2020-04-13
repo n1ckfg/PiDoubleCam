@@ -215,6 +215,7 @@ void ofApp::updateHomography() {
                 fs << "homography" << homography;
                 //saveMatrix = false;
                 //}
+                cout << "Wrote new calibration data to calibration/homography.yml"
                 homographyReady = true;
             }
         }       
