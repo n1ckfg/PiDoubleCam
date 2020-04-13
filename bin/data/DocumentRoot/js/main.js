@@ -5,15 +5,15 @@ var liveView;
 function main() {
 
     liveView = document.getElementById("live_view");
-    liveView.onclick = saveToPngStereo;
+    liveView.onclick = saveImageStereo;
 
 }
 
 window.onload = main;
 
 // ~ ~ ~ ~ 
-function saveToPng() {
-    saveBase64ImageStereo(liveView, "test.png");
+function saveImage() {
+    saveBase64Image(liveView, "test.jpg");
 }
 
 function encodeBase64Image(img, format) {
@@ -38,8 +38,8 @@ function saveBase64Image(img, fileName) {
 }
 // ~ ~ ~ ~ 
 
-function saveToPngStereo() {
-    saveBase64ImageStereo(liveView, "sbs", "test.png");
+function saveImageStereo() {
+    saveBase64ImageStereo(liveView, "sbs", "test.jpg");
 }
 
 function encodeBase64ImageStereo(img, stereoMode, format) {
